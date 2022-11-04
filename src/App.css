@@ -1,0 +1,9 @@
+.password-eye i {
+  top: -29px;
+  margin-top: -27px;
+  z-index: 10;
+  margin-right: 4px;
+}
+.email input{
+    text-transform: lowercase;
+  }
