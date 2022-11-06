@@ -22,15 +22,14 @@ const styles = {
   };
 
 const Education = (props) => {
-  const navigate = useNavigate()
   const data = props.data
-  // const [propsData,setPropsData]=React.useState()
+  const [propsData,setPropsData]=React.useState([])
   const [educationOpen, setEducationOpen] = React.useState(false);
   const [educationData,setEducationData]=React.useState({ id:uuid(), degreeName:'', collegeName:'', startDate:'', endDate:''})
   const educationHandleOpen = () => setEducationOpen(true);
   const educationHandleClose = () => setEducationOpen(false);
 
-
+console.log(propsData,"propsData")
   const EducationHandler =(e)=>{
     setEducationData((pre)=>({
         ...pre,
@@ -47,7 +46,7 @@ const Education = (props) => {
     },
     data:educationData
   }).then((res)=>{
-    window.location.reload()
+    setPropsData(res.data.education)
   })
   .catch((err)=>{
     toast.error(err.response.data.message, {
@@ -61,6 +60,7 @@ const Education = (props) => {
       theme:'colored'
       });
   })
+  educationHandleClose()
 }
 const EducationDelete=(id)=>{
 axios({
@@ -70,11 +70,16 @@ axios({
     'Authorization':`Bearer ${window.localStorage.getItem('token')}`
   },
 }).then((res)=>{
-  console.log(res) 
+  console.log(res,"res me kujh ah hi nhi raha") 
+  const filterdata =propsData.filter((data)=>data._id!=id)
+  setPropsData(filterdata);
 }).catch((err)=>{
   console.log(err.message)
 })
 }
+React.useEffect(()=>{
+  setPropsData(data)
+},[data])
   return (
     <>
       <div className="col-span-2 text-sm font-medium text-slate-600 ">
@@ -87,8 +92,8 @@ axios({
           </div>
         </div>
         <hr />
-        {!data?<Breathing width={820} height={270} />
-       :data.map((data)=>{
+        {!propsData?<Breathing width={820} height={270} />
+       :propsData.map((data)=>{
            return(
            
             <div key={data._id} className="ml-2 p-4 grid grid-cols-1 gap-2" >

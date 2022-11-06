@@ -25,6 +25,7 @@ const style = {
 const Language = (props) => {
   const languageDatas = props.data
     let temp_arr = [];
+    const [languDataShow, setLanguDataShow] = React.useState();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -43,7 +44,6 @@ const Language = (props) => {
       }
 
     }
-
     const languageSubmitHandler =()=> {
       console.log(temp_arr,"temp")
       axios({
@@ -54,8 +54,8 @@ const Language = (props) => {
         },
         data:temp_arr
       }).then((res)=>{
-        console.log(res,"res")
-        window.location.reload()
+        console.log(res,"res data nhi ah raha")
+        setLanguDataShow(languageDatas)
       })
       .catch((err)=>{
         toast.error(err.response.data.message, {
@@ -71,7 +71,9 @@ const Language = (props) => {
       })
       handleClose()
     }
-  
+    React.useEffect(()=>{
+      setLanguDataShow(languageDatas)
+    },[languageDatas])
   return (
     <>
       <div className=" col text-sm font-medium text-slate-600">
@@ -86,8 +88,8 @@ const Language = (props) => {
         <hr />
         <div className="ml-2 p-4 grid grid-cols-2 gap-4">
           <div className>
-            {!languageDatas?<Breathing width={360} height={250} />:
-            languageDatas.map((langu)=>{
+            {!languDataShow?<Breathing width={360} height={250} />:
+            languDataShow.map((langu)=>{
               return(
                   <ul key={langu.id} className="list-none font-normal  text-base text-black">
                   <li>{langu.language}</li>

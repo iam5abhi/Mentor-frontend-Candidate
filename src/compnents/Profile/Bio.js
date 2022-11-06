@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import axios from 'axios';
 import { Breathing } from 'react-shimmer'
+import BaseUrl from '../../config/BaseUrl';
 
 const style = {
     position: 'absolute',
@@ -21,16 +22,16 @@ const style = {
 
 const Bio = (props) => {
   const data = props.data;
+    const [newBioData,setNewBioData]=React.useState()
     const [bioOpen, setBioOpen] = React.useState(false);
     const [bioData,setBioData]=React.useState()
     const BioHandleOpen = () => setBioOpen(true);
     const BioHandleClose = () => setBioOpen(false);
-    console.log("gh",bioData)
 
     const BioSubmit =()=> {
       axios({
         method: 'PATCH',
-        url: 'http://localhost:7000/user/accounts/add-bio',
+        url: `${BaseUrl.url}/add-bio`,
         headers:{
           'Authorization':`Bearer ${window.localStorage.getItem('token')}`
         },
@@ -38,21 +39,8 @@ const Bio = (props) => {
           bio:bioData,
         }
       }).then((res)=>{
-        console.log(res.data)
-        // toast.success(res.data.message, {
-        //   position: "top-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   theme:'colored'
-        //   });
-        // setTimeout(() => {
-            
-        // }, 1000);
-        window.location.reload()
+        console.log(res.data,'===', '===', bioData)
+        setNewBioData(bioData)
       })
       .catch((err)=>{
         toast.error(err.response.data.message, {
@@ -68,6 +56,9 @@ const Bio = (props) => {
       })
       BioHandleClose()
     }
+    React.useEffect(()=>{
+      setNewBioData(data)
+    },[data])
   return (
     <>
       <div className=" col-span-2 text-sm font-medium text-slate-600 ">
@@ -83,7 +74,7 @@ const Bio = (props) => {
         <hr />
         <div className="ml-2 p-4">
           <div className="col-span-2">
-            <p className=" font-normal text-base text-black" >{data?data:<Breathing width={780} height={250} />}
+            <p className=" font-normal text-base text-black" >{newBioData?newBioData:<Breathing width={780} height={250} />}
             </p>
           </div>
           <div className=" col  text-end text-slate-600 text-xs ">
@@ -111,7 +102,7 @@ const Bio = (props) => {
         <div>
           <h5 className="  p-2 font-medium leading-tight text-xl mt-0 mb-2 text-black">Add Bio</h5>
         </div>
-        <textarea id="message" onChange={(event)=>setBioData(event.target.value)} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >{data?data:`Lorem Ipsum has been the industry's standard dummy text ever
+        <textarea id="message" onChange={(event)=>setBioData(event.target.value)} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >{newBioData?newBioData:`Lorem Ipsum has been the industry's standard dummy text ever
               since the 1500s
               standard dummy text ever since the 1500s`}</textarea>
         <br />

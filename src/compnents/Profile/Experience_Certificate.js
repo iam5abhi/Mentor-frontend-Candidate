@@ -23,7 +23,7 @@ const style = {
 
 const Experience_Certificate = (props) => {
   const Experience_data = props.data
-  console.log(Experience_data,"Experience_data")
+  const [experienceDataShow,setExperienceDataShow]=React.useState()
   const [experienceData,setExperienceData]=React.useState({ id:uuid(), position:'', company:'', startDate:'', endDate:''})
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -46,7 +46,8 @@ const Experience_Certificate = (props) => {
     },
     data:experienceData
   }).then((res)=>{
-    window.location.reload()
+    console.log(res.data,"experi")
+    // window.location.reload()
   })
   .catch((err)=>{
     toast.error(err.response.data.message, {
@@ -70,12 +71,15 @@ const ExperienceDelete=(id)=>{
       'Authorization':`Bearer ${window.localStorage.getItem('token')}`
     },
   }).then((res)=>{
-    console.log(res) 
+    console.log(res.data) 
   }).catch((err)=>{
     console.log(err.message)
   })
   window.location.reload()
   }
+  React.useEffect(()=>{
+    setExperienceDataShow(Experience_data)
+  },[Experience_data])
   return (
     <>
     

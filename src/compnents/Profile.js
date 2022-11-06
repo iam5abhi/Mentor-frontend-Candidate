@@ -50,15 +50,7 @@ const Profile = () => {
       console.log(err.message)
     })
   }
-  React.useEffect(()=>{
-    ProfileSubmit();
-  },[window.localStorage.getItem('token')])
-
-  
-  
- 
-
-var jwtoken = window.localStorage.getItem('token');
+  var jwtoken = window.localStorage.getItem('token');
   if (jwtoken) {
   var decoded = jwt_decode(jwtoken);
   if (decoded.exp * 1000 < Date.now()) {
@@ -66,6 +58,9 @@ var jwtoken = window.localStorage.getItem('token');
       window.localStorage.removeItem('id')
       navigate('/login')
   }}
+  React.useEffect(()=>{
+    ProfileSubmit();
+  },[window.localStorage.getItem('token'),])
   return (
     <>
     {!token?navigate('/login'):
