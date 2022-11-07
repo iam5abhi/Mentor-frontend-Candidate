@@ -94,9 +94,6 @@ const Language = (props) => {
             })}     
           </div>
              {/*-------------------------LANGUAGE DROPDOWN*/} 
-          <div className="text-end text-slate-600 text-xs">
-            <i className="fa-solid fa-pen border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
-          </div>
         </div>
       </div>
     {/* ------------------------------language modal-------------------------- */}

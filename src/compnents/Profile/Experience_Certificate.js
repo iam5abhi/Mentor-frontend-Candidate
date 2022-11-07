@@ -64,6 +64,8 @@ const Experience_Certificate = (props) => {
   handleClose()
 }
 const ExperienceDelete=(id)=>{
+  var result = window.confirm("Are you sure you want to delete?");
+  if(result===true){
   axios({
     method:'delete',
     url:`${BaseUrl.url}/delete-exprience?id=${id}`,
@@ -75,6 +77,9 @@ const ExperienceDelete=(id)=>{
   }).catch((err)=>{
     console.log(err.message)
   })
+}else{
+  return;
+}
   }
   React.useEffect(()=>{
     setExperienceDataShow(Experience_data)
@@ -107,7 +112,6 @@ const ExperienceDelete=(id)=>{
                     - {data.endDate}</p>
                 </div>
                 <div className=" col  text-end text-slate-600 text-xs ">
-                  <i className="fa-solid fa-pen border-solid  ring-2 ring-gray-200 p-2 rounded-full" />&nbsp;
                   <i onClick={()=>ExperienceDelete(data._id)} className="fa-solid fa-trash-can border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
                 </div>
                </div>

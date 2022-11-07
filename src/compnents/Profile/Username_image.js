@@ -41,7 +41,7 @@ const Username_image = (props) => {
       </div>
       <div className="flex-none w-auto max-w-full px-3 my-auto">
         <div className="h-full">
-          <h5 className="mb-1 text-2xl font-semibold">{data?data.name:"Abhinandan Jhamb"}</h5>
+          <h5 className="mb-1 text-2xl font-semibold">{data?data.name:null}</h5>
           <p className="mb-0  leading-normal text-slate-600 text-size-sm"><i className="fa-solid fa-location-dot" /> Mohali,
             Sector 66</p>
         </div>
