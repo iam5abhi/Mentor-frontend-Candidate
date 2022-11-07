@@ -27,8 +27,8 @@ const skillsData = [{skills:'Graphic Design', id:uuid()},
                         ]
 const Skill = (props) => {
   const skillData = props.data
-  console.log(skillData,"skillData")
   let skills_arr = [];
+  const [skillsShow, setSkillsShow] = React.useState();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -57,7 +57,7 @@ const Skill = (props) => {
       data:skills_arr
     }).then((res)=>{
       console.log(res,"res")
-      window.location.reload()
+      props.ProfileSubmit()
     })
     .catch((err)=>{
       toast.error(err.response.data.message, {
@@ -73,7 +73,9 @@ const Skill = (props) => {
     })
     handleClose()
   }
-
+  React.useEffect(()=>{
+    setSkillsShow(skillData)
+  },[skillData])
   return (
     <>
       <div className=" col text-sm font-medium text-slate-600">
@@ -88,8 +90,8 @@ const Skill = (props) => {
         <hr />
         <div className="ml-2 p-4 grid grid-cols-3 gap-4">
           <div className="col-span-2">
-            {!skillData?<Breathing width={340} height={250} />:
-            skillData.map((skill)=>{
+            {!skillsShow?<Breathing width={340} height={250} />:
+            skillsShow.map((skill)=>{
               return(
                 <ul key={skill.id} className="list-none font-normal  text-base text-black" >
               <li className="rounded-full  text-center bg-blue-100 text-blue-800 my-2">

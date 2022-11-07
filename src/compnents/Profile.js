@@ -83,15 +83,15 @@ const Profile = () => {
   <div>
     <div className="container w-11/15 mx-auto p-4 mt-4 border border-slate-300 bg-white rounded ">
     <div className=" grid grid-cols-3 gap-4 border-r">
-    <Language data={getData?getData.language:null}/>
+    <Language data={getData?getData.language:null} ProfileSubmit={ProfileSubmit}/>
     <Bio data={getData?getData.bio:null}/>
     </div>
       <br />
       {/*------------------------------------------------------------ROW1*/}
       {/*------------------------------------------------------------ROW2*/}
       <div className=" grid grid-cols-3 gap-4 border-r">
-      <Skill data={getData?getData.skills:null}/>
-      <Education data={getData?getData.education:null}/>
+      <Skill data={getData?getData.skills:null} ProfileSubmit={ProfileSubmit}/>
+      <Education data={getData?getData.education:null} ProfileSubmit={ProfileSubmit}/>
       </div>
       <hr />
       <br />
@@ -100,7 +100,7 @@ const Profile = () => {
       {/*------------------------------------------------------------ROW2*/}
       {/*------------------------------------------------------------ROW3*/}
       <div className="container w-11/15 mx-auto p-4 mt-4 border border-slate-300 bg-white rounded "> 
-      <Experience_Certificate data={getData?getData.experience:null} />
+      <Experience_Certificate data={getData?getData.experience:null} ProfileSubmit={ProfileSubmit}/>
       </div>
   </div>
     {/* <!-----------------------------------Experience--> */}

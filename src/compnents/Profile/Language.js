@@ -30,13 +30,11 @@ const Language = (props) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const languageHandler =(event)=>{
-
       let filtered = languageData.filter(lang => {
         return lang.id === event.target.id;
       });
       if (temp_arr.includes(filtered[0])){
         let myIndex = temp_arr.indexOf(filtered[0]);
-        console.log(myIndex)
         temp_arr.splice(myIndex, 1);
       }
       else{
@@ -45,7 +43,6 @@ const Language = (props) => {
 
     }
     const languageSubmitHandler =()=> {
-      console.log(temp_arr,"temp")
       axios({
         method: 'patch',
         url: `${BaseUrl.url}/add-language`,
@@ -54,8 +51,7 @@ const Language = (props) => {
         },
         data:temp_arr
       }).then((res)=>{
-        console.log(res,"res data nhi ah raha")
-        setLanguDataShow(languageDatas)
+        props.ProfileSubmit()
       })
       .catch((err)=>{
         toast.error(err.response.data.message, {
@@ -136,7 +132,7 @@ const Language = (props) => {
                     </li>
                 </ul>)
                 })}
-                <button type="button" onClick={languageSubmitHandler} className="ml-5 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Save</button>
+                <button type="button" onClick={()=>languageSubmitHandler()} className="ml-5 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Save</button>
             </div>
          </div> 
       </Box>

@@ -47,7 +47,7 @@ const Experience_Certificate = (props) => {
     data:experienceData
   }).then((res)=>{
     console.log(res.data,"experi")
-    // window.location.reload()
+    props.ProfileSubmit()
   })
   .catch((err)=>{
     toast.error(err.response.data.message, {
@@ -71,11 +71,10 @@ const ExperienceDelete=(id)=>{
       'Authorization':`Bearer ${window.localStorage.getItem('token')}`
     },
   }).then((res)=>{
-    console.log(res.data) 
+    props.ProfileSubmit()
   }).catch((err)=>{
     console.log(err.message)
   })
-  window.location.reload()
   }
   React.useEffect(()=>{
     setExperienceDataShow(Experience_data)
@@ -121,11 +120,9 @@ const ExperienceDelete=(id)=>{
       </div>
     </div>
     <hr />
-    <br />
-    <br />
    {/*------------------------------------------------------------ROW3*/}
     {/*------------------------------------------------------------ROW4*/} 
-    <div className=" grid grid-cols-1 gap-6">
+    {/* <div className=" grid grid-cols-1 gap-6">
       <div className="text-sm font-medium text-slate-600 ">
         <div className="grid grid-cols-2 gap-4 bg-slate-100">
           <div>
@@ -153,7 +150,7 @@ const ExperienceDelete=(id)=>{
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
   {/* ------------------------------language modal-------------------------- */}
   <Modal
         aria-labelledby="transition-modal-title"

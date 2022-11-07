@@ -29,7 +29,6 @@ const Education = (props) => {
   const educationHandleOpen = () => setEducationOpen(true);
   const educationHandleClose = () => setEducationOpen(false);
 
-console.log(propsData,"propsData")
   const EducationHandler =(e)=>{
     setEducationData((pre)=>({
         ...pre,
@@ -70,11 +69,13 @@ axios({
     'Authorization':`Bearer ${window.localStorage.getItem('token')}`
   },
 }).then((res)=>{
-  console.log(res,"res me kujh ah hi nhi raha") 
-  const filterdata =propsData.filter((data)=>data._id!=id)
-  setPropsData(filterdata);
+  console.log("then") 
+  // const filterdata =propsData.filter((data)=>data._id!=id)
+  // setPropsData(filterdata);
+  props.ProfileSubmit()
 }).catch((err)=>{
   console.log(err.message)
+  console.log("catch") 
 })
 }
 React.useEffect(()=>{
