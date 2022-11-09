@@ -46,6 +46,7 @@ return (
       <div className="relative flex h-16 items-center justify-between">
         <div className="flex flex-1 items-center justify-end sm:items-stretch sm:justify-end">
           <div className="flex space-x-4">  
+          <NavLink to="/alluser" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">User's</NavLink>
           <NavLink to="/signup" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Signup</NavLink>
         </div>
        </div>

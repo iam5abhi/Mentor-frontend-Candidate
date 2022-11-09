@@ -6,7 +6,7 @@ import {NavLink, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
   const navigate = useNavigate()
-    const [btnDisable,setBtnDisable]=useState(false)
+    const [btnDisable,setBtnDisable]=useState()
     const LogoutHandler=()=>{
         setBtnDisable(true)
         localStorage.removeItem('token')
@@ -47,6 +47,7 @@ const Navbar = () => {
             >
               <ul className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <li><NavLink to="/getprofile" className='block px-4 py-2 text-sm text-gray-700'>Your Profile</NavLink></li>
+                <li><NavLink to={`/profile/${localStorage.getItem('id')}`} className='block px-4 py-2 text-sm text-gray-700'>Edit Profile</NavLink></li>
                 <li><NavLink to="/changepassword" className= 'block px-4 py-2 text-sm text-gray-700' >Change Password</NavLink></li>
                 <li disabled={btnDisable} onClick={LogoutHandler} className= 'block px-4 py-2 text-sm text-gray-700 cursor-pointer'>Logout</li>
               </ul>
