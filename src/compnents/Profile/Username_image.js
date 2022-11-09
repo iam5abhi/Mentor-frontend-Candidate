@@ -26,8 +26,8 @@ const Username_image = (props) => {
  
   return (
     <>
-     <div className="container w-11/15 mx-auto px-4  mt-4 border border-slate-300 bg-white rounded ">
-  <div className="relative flex flex-col flex-auto min-w-0 mt-4 p-4 overflow-hidden break-words border-0 shadow-blur rounded-2xl bg-white/80 bg-clip-border mb-4 draggable" draggable="true">
+     <div className="container w-11/15 mx-auto  mt-16 border border-slate-300 bg-white rounded ">
+  <div className="relative flex flex-col flex-auto min-w-0 mt-4  overflow-hidden break-words border-0 shadow-blur rounded-2xl bg-white/80 bg-clip-border mb-4 draggable" draggable="true">
     <div className="flex flex-wrap -mx-3">
       <div className="flex-none w-auto max-w-full px-3">
         <div  onClick={handleOpen} className="relative">

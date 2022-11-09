@@ -14,7 +14,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 800,
-    height:300,
+    height:340,
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
@@ -39,7 +39,6 @@ const Bio = (props) => {
           bio:bioData,
         }
       }).then((res)=>{
-        console.log(res.data,'===', '===', bioData)
         setNewBioData(bioData)
       })
       .catch((err)=>{
@@ -67,7 +66,7 @@ const Bio = (props) => {
             <h5 className="  p-2 font-medium leading-tight text-xl mt-0 mb-2 text-black">Bio</h5>
           </div>
           <div className="p-2 text-end text-slate-600 text-sm pt-2">
-          {data?<i onClick={BioHandleOpen} className="fas fa-pencil ring-2 text-white ring-gray-200 p-2 rounded-full bg-green-600" />
+          {newBioData?<i onClick={BioHandleOpen} className="fas fa-pencil ring-2 text-white ring-gray-200 p-2 rounded-full bg-green-600" />
           :<i onClick={BioHandleOpen} className="fa-solid fa-plus border-dashed text-white ring-2 ring-gray-200 p-2 rounded-full bg-red-600" />}
           </div>
         </div>

@@ -64,8 +64,6 @@ const Experience_Certificate = (props) => {
   handleClose()
 }
 const ExperienceDelete=(id)=>{
-  var result = window.confirm("Are you sure you want to delete?");
-  if(result===true){
   axios({
     method:'delete',
     url:`${BaseUrl.url}/delete-exprience?id=${id}`,
@@ -77,9 +75,6 @@ const ExperienceDelete=(id)=>{
   }).catch((err)=>{
     console.log(err.message)
   })
-}else{
-  return;
-}
   }
   React.useEffect(()=>{
     setExperienceDataShow(Experience_data)
@@ -112,10 +107,24 @@ const ExperienceDelete=(id)=>{
                     - {data.endDate}</p>
                 </div>
                 <div className=" col  text-end text-slate-600 text-xs ">
-                  <i onClick={()=>ExperienceDelete(data._id)} className="fa-solid fa-trash-can border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
+                  <i data-bs-toggle="modal" data-bs-target="#staticBackdrop" className="fa-solid fa-trash-can border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
                 </div>
                </div>
                <br />
+               <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog w-25">
+                  <div className="modal-content">
+                    <div className="modal-header text-dark">
+                      <button type="button" className="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <h1 className="modal-body text-center font-semibold">Are you sure you want to delete?</h1>
+                    <div className="modal-footer" style={{justifyContent:"center"}}>
+                      <button type="button" className="btn btn-outline-secondary bg-secondary text-light" data-bs-dismiss="modal">No</button>
+                      <button type="button" onClick={()=>ExperienceDelete(data._id)} className="btn btn-outline-success bg-success text-light" data-bs-dismiss="modal" aria-label="Close" >Yes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
                </>
               )
             })}

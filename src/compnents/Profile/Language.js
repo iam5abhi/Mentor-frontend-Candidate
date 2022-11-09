@@ -6,31 +6,32 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import axios from 'axios';
 import BaseUrl from '../../config/BaseUrl';
+import { toast, ToastContainer } from 'react-toastify';
 import { Breathing } from 'react-shimmer'
 
 const style = {
     position: 'absolute',
-    top: '50%',
+    top: '40%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 800,
-    height:300,
+    height:370,
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
   }; 
-  const languageData = [{language:'English', id:uuid()},
-                        {language:'Hindi', id:uuid()},
-                        {language:'Punjabi', id:uuid()}]
 const Language = (props) => {
   const languageDatas = props.data
     let temp_arr = [];
     const [languDataShow, setLanguDataShow] = React.useState();
+    const [languages, setLanguages] = React.useState([{language:'English', id:uuid(),value:"false"},
+                                                      {language:'Hindi', id:uuid(),value:"false"},
+                                                      {language:'Punjabi', id:uuid(),value:"false"}]);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const languageHandler =(event)=>{
-      let filtered = languageData.filter(lang => {
+      let filtered = languages.filter(lang => {
         return lang.id === event.target.id;
       });
       if (temp_arr.includes(filtered[0])){
@@ -40,7 +41,7 @@ const Language = (props) => {
       else{
         temp_arr.push(filtered[0]);
       }
-
+      console.log(temp_arr,"temp_arr")
     }
     const languageSubmitHandler =()=> {
       axios({
@@ -52,11 +53,12 @@ const Language = (props) => {
         data:temp_arr
       }).then((res)=>{
         props.ProfileSubmit()
+        handleClose()
       })
       .catch((err)=>{
         toast.error(err.response.data.message, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -64,8 +66,7 @@ const Language = (props) => {
           progress: undefined,
           theme:'colored'
           });
-      })
-      handleClose()
+      }) 
     }
     React.useEffect(()=>{
       setLanguDataShow(languageDatas)
@@ -118,7 +119,7 @@ const Language = (props) => {
               <div>
                     <h5 className="  p-2 font-medium leading-tight text-xl mt-0 mb-2 text-black">Select Languages</h5>
                 </div>
-                {languageData.map((langu) =>{
+                {languages.map((langu) =>{
                   return(
                 <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
                     <li key={langu.id}>
@@ -130,6 +131,7 @@ const Language = (props) => {
                 </ul>)
                 })}
                 <button type="button" onClick={()=>languageSubmitHandler()} className="ml-5 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Save</button>
+                <ToastContainer />
             </div>
          </div> 
       </Box>
