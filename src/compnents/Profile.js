@@ -24,7 +24,6 @@ const Profile = () => {
         'Authorization':`Bearer ${window.localStorage.getItem('token')}`
       }
     }).then((res)=>{
-      console.log(res.data)
       setGetData(res.data.candidata);
     })
     .catch((err)=>{

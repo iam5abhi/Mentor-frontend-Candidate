@@ -15,7 +15,6 @@ useEffect(()=>{
        console.log(err.message) 
     })
 },[])
-console.log(allUsers,"allUsers")
 const GetAllUsers=(id)=>{
  navigate(`/getuser/${id}`)
 } 

@@ -6,7 +6,6 @@ import BaseUrl from '../config/BaseUrl';
 const ShowProfile = () => {
     const [profileData,setProfileData]=useState()
     const {id} = useParams()
-    console.log(id,"idddd")
     useEffect(()=>{
         axios.get(`${BaseUrl.url}/getSingleCandodateDetail/${id}`
         ).then((res)=>{

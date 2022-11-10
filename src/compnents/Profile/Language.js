@@ -20,13 +20,14 @@ const style = {
     boxShadow: 24,
     p: 4,
   }; 
+  const languages = [{language:'English', id:uuid(),value:"false"},
+  {language:'Hindi', id:uuid(),value:"false"},
+  {language:'Punjabi', id:uuid(),value:"false"}]
 const Language = (props) => {
   const languageDatas = props.data
     let temp_arr = [];
+    const [languId, setLanguId] = React.useState();
     const [languDataShow, setLanguDataShow] = React.useState();
-    const [languages, setLanguages] = React.useState([{language:'English', id:uuid(),value:"false"},
-                                                      {language:'Hindi', id:uuid(),value:"false"},
-                                                      {language:'Punjabi', id:uuid(),value:"false"}]);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -41,7 +42,6 @@ const Language = (props) => {
       else{
         temp_arr.push(filtered[0]);
       }
-      console.log(temp_arr,"temp_arr")
     }
     const languageSubmitHandler =()=> {
       axios({
@@ -68,6 +68,22 @@ const Language = (props) => {
           });
       }) 
     }
+    const LanguageIdStore=(id)=>{
+      setLanguId(id)
+    }
+    const LanguageDelete=()=>{
+      axios({
+        method:'delete',
+        url:`${BaseUrl.url}/delete-lang?id=${languId}`,
+        headers:{
+          'Authorization':`Bearer ${window.localStorage.getItem('token')}`
+        },
+      }).then((res)=>{
+        props.ProfileSubmit()
+      }).catch((err)=>{
+        console.log(err.message)
+      })
+      }
     React.useEffect(()=>{
       setLanguDataShow(languageDatas)
     },[languageDatas])
@@ -83,18 +99,40 @@ const Language = (props) => {
           </div>
         </div>
         <hr />
-        <div className="ml-2 p-4 grid grid-cols-2 gap-4">
+        <div className="">
           <div className>
             {!languDataShow?<Breathing width={360} height={250} />:
             languDataShow.map((langu)=>{
               return(
-                  <ul key={langu.id} className="list-none font-normal  text-base text-black">
+                <>
+                <div key={langu._id} class="ml-2 p-1 grid grid-cols-4 gap-4">
+                <div class="col-span-3">
+                  <ul  className="list-none font-normal  text-base text-black">
                   <li>{langu.language}</li>
                 </ul>
+                </div>
+                <div class="text-end text-slate-600 text-xs">
+                  <i onClick={()=>LanguageIdStore(langu._id)} data-bs-toggle="modal" data-bs-target="#LanguageDelete" className="fa-solid fa-trash-can border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
+                </div>
+                </div>
+                <div className="modal fade" id="LanguageDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="modal-dialog w-25">
+              <div className="modal-content">
+                <div className="modal-header text-dark">
+                  <button type="button" className="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <h1 className="modal-body text-center font-semibold">Are you sure you want to delete?</h1>
+                <div className="modal-footer" style={{justifyContent:"center"}}>
+                  <button type="button" className="btn btn-outline-secondary bg-secondary text-light" data-bs-dismiss="modal">No</button>
+                  <button type="button" onClick={()=>LanguageDelete()} className="btn btn-outline-success bg-success text-light" data-bs-dismiss="modal" aria-label="Close" >Yes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+            </> 
               )
             })}     
           </div>
-             {/*-------------------------LANGUAGE DROPDOWN*/} 
         </div>
       </div>
     {/* ------------------------------language modal-------------------------- */}

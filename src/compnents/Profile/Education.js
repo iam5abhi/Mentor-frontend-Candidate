@@ -23,6 +23,7 @@ const styles = {
 const Education = (props) => {
   const data = props.data
   const [propsData,setPropsData]=React.useState([])
+  const [educationDeleteId,setEducationDeleteId]=React.useState()
   const [educationOpen, setEducationOpen] = React.useState(false);
   const [educationData,setEducationData]=React.useState({ id:uuid(), degreeName:'', collegeName:'', startDate:'', endDate:''})
   const educationHandleOpen = () => setEducationOpen(true);
@@ -60,10 +61,13 @@ const Education = (props) => {
   })
   educationHandleClose()
 }
-const EducationDelete=(id)=>{
+const EducationIdStore =(id)=>{
+  setEducationDeleteId(id)
+}
+const EducationDelete=()=>{
 axios({
   method:'delete',
-  url:`${BaseUrl.url}/delete-education?id=${id}`,
+  url:`${BaseUrl.url}/delete-education?id=${educationDeleteId}`,
   headers:{
     'Authorization':`Bearer ${window.localStorage.getItem('token')}`
   },
@@ -90,7 +94,6 @@ React.useEffect(()=>{
         <hr />
         {!propsData?<Breathing width={820} height={270} />
        :propsData.map((data)=>{
-        console.log(data,"data")
            return(
                   <>
             <div key={data._id} className="ml-2 p-4 grid grid-cols-1 gap-2" >
@@ -101,13 +104,13 @@ React.useEffect(()=>{
                   <p className="   font-normal  text-black text-slate-600"><i className="fa-solid fa-calendar-days" />{data.startDate}
                     - {data.endDate}</p>
                 </div>
-                <div className=" col  text-end text-slate-600 text-xs ">
-                  <i data-bs-toggle="modal" data-bs-target="#staticBackdrop" className="fa-solid fa-trash-can border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
+                <div className=" col text-end text-slate-600 text-xs ">
+                  <i onClick={()=>EducationIdStore(data._id)} data-bs-toggle="modal" data-bs-target="#staticBackdrops" className="fa-solid fa-trash-can border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
                 </div>
               </div>
               <br />
             </div>
-            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="modal fade" id="staticBackdrops" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabels" aria-hidden="true">
             <div className="modal-dialog w-25">
               <div className="modal-content">
                 <div className="modal-header text-dark">
@@ -115,8 +118,9 @@ React.useEffect(()=>{
                 </div>
                 <h1 className="modal-body text-center font-semibold">Are you sure you want to delete?</h1>
                 <div className="modal-footer" style={{justifyContent:"center"}}>
+                  
                   <button type="button" className="btn btn-outline-secondary bg-secondary text-light" data-bs-dismiss="modal">No</button>
-                  <button type="button" onClick={()=>EducationDelete(data._id)} className="btn btn-outline-success bg-success text-light" data-bs-dismiss="modal" aria-label="Close" >Yes</button>
+                  <button onClick={()=>EducationDelete()} type="button" className="btn btn-outline-success bg-success text-light" data-bs-dismiss="modal" aria-label="Close" >Yes</button>
                 </div>
               </div>
             </div>

@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { v4 as uuid } from 'uuid';
+import { toast, ToastContainer } from 'react-toastify';
 import BaseUrl from '../../config/BaseUrl';
 import axios from 'axios';
 import { Breathing } from 'react-shimmer'
@@ -28,6 +29,7 @@ const skillsData = [{skills:'Graphic Design', id:uuid()},
 const Skill = (props) => {
   const skillData = props.data
   let skills_arr = [];
+  const [skillsId, setSkills] = React.useState();
   const [skillsShow, setSkillsShow] = React.useState();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -44,10 +46,8 @@ const Skill = (props) => {
     else{
       skills_arr.push(filtered[0]);
     }
-    console.log(skills_arr,"skills_arr")
   }
   const skillsSubmitHandler =()=> {
-    console.log(skills_arr,"temp")
     axios({
       method: 'patch',
       url: `${BaseUrl.url}/add-skills`,
@@ -56,13 +56,13 @@ const Skill = (props) => {
       },
       data:skills_arr
     }).then((res)=>{
-      console.log(res,"res")
       props.ProfileSubmit()
+      handleClose()
     })
     .catch((err)=>{
       toast.error(err.response.data.message, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -71,8 +71,23 @@ const Skill = (props) => {
         theme:'colored'
         });
     })
-    handleClose()
   }
+  const SkillsIdStore=(id)=>{
+    setSkills(id)
+  }
+  const SkillsDelete=()=>{
+    axios({
+      method:'delete',
+      url:`${BaseUrl.url}/delete-skills?id=${skillsId}`,
+      headers:{
+        'Authorization':`Bearer ${window.localStorage.getItem('token')}`
+      },
+    }).then((res)=>{
+      props.ProfileSubmit()
+    }).catch((err)=>{
+      console.log(err.message)
+    })
+    }
   React.useEffect(()=>{
     setSkillsShow(skillData)
   },[skillData])
@@ -88,22 +103,43 @@ const Skill = (props) => {
           </div>
         </div>
         <hr />
-        <div className="ml-2 p-4 grid grid-cols-3 gap-4">
           <div className="col-span-2">
             {!skillsShow?<Breathing width={340} height={250} />:
             skillsShow.map((skill)=>{
               return(
-                <ul key={skill.id} className="list-none font-normal  text-base text-black" >
-              <li className="rounded-full  text-center bg-blue-100 text-blue-800 my-2">
-                <span><a href className>
+                <>
+                <div key={skill._id} class="ml-2 p-1 grid grid-cols-4 gap-4">
+                <div class="col-span-3">
+                <ul className="list-none font-normal  text-base text-black" >
+                <li className="rounded-full  text-center bg-blue-100 text-blue-800 my-2">
+                  <span><a href className>
                     {skill.skills}</a></span>
-              </li>
-            </ul>
+                  </li>
+                </ul>
+                </div>
+                <div class="text-end text-slate-600 text-xs">
+                <i onClick={()=>SkillsIdStore(skill._id)} data-bs-toggle="modal" data-bs-target="#SkillsDelete" className="fa-solid fa-trash-can border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
+                </div>
+                </div>
+                <div className="modal fade" id="SkillsDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog w-25">
+                  <div className="modal-content">
+                    <div className="modal-header text-dark">
+                      <button type="button" className="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <h1 className="modal-body text-center font-semibold">Are you sure you want to delete?</h1>
+                    <div className="modal-footer" style={{justifyContent:"center"}}>
+                      <button type="button" className="btn btn-outline-secondary bg-secondary text-light" data-bs-dismiss="modal">No</button>
+                      <button type="button" onClick={()=>SkillsDelete()} className="btn btn-outline-success bg-success text-light" data-bs-dismiss="modal" aria-label="Close" >Yes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </>
               )
             })}
           </div>
         </div>
-      </div>
         {/* ------------------------------Skills modal-------------------------- */}
         <Modal
         aria-labelledby="transition-modal-title"
@@ -139,6 +175,7 @@ const Skill = (props) => {
       </ul> 
     </div>
     <button type="button" onClick={skillsSubmitHandler} className="ml-5 mt-2 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Save</button>
+    <ToastContainer />
     </div>
       </Box>
      </Fade>

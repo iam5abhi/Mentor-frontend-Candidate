@@ -23,6 +23,7 @@ const style = {
 
 const Experience_Certificate = (props) => {
   const Experience_data = props.data
+  const [experienceDeleteId,setExperienceDeleteId]=React.useState()
   const [experienceDataShow,setExperienceDataShow]=React.useState()
   const [experienceData,setExperienceData]=React.useState({ id:uuid(), position:'', company:'', startDate:'', endDate:''})
   const [open, setOpen] = React.useState(false);
@@ -35,7 +36,6 @@ const Experience_Certificate = (props) => {
         [e.target.name]:e.target.value
   }))
  }
- console.log(experienceData,"educationData")
  const ExperienceSubmit =(event)=> {
   event.preventDefault();
   axios({
@@ -46,7 +46,6 @@ const Experience_Certificate = (props) => {
     },
     data:experienceData
   }).then((res)=>{
-    console.log(res.data,"experi")
     props.ProfileSubmit()
   })
   .catch((err)=>{
@@ -63,10 +62,13 @@ const Experience_Certificate = (props) => {
   })
   handleClose()
 }
-const ExperienceDelete=(id)=>{
+const ExperienceIdStore =(id)=>{
+  setExperienceDeleteId(id)
+}
+const ExperienceDelete=()=>{
   axios({
     method:'delete',
-    url:`${BaseUrl.url}/delete-exprience?id=${id}`,
+    url:`${BaseUrl.url}/delete-exprience?id=${experienceDeleteId}`,
     headers:{
       'Authorization':`Bearer ${window.localStorage.getItem('token')}`
     },
@@ -95,8 +97,8 @@ const ExperienceDelete=(id)=>{
         <hr />
         <div className="ml-2 p-4 grid grid-cols-1 gap-2">
           <div>
-            {!Experience_data?<Breathing width={1200} height={250} />:
-            Experience_data.map((data)=>{
+            {!experienceDataShow?<Breathing width={1200} height={250} />:
+            experienceDataShow.map((data)=>{
               return(
                 <>
                <div className="grid grid-cols-5 gap-4">
@@ -107,11 +109,11 @@ const ExperienceDelete=(id)=>{
                     - {data.endDate}</p>
                 </div>
                 <div className=" col  text-end text-slate-600 text-xs ">
-                  <i data-bs-toggle="modal" data-bs-target="#staticBackdrop" className="fa-solid fa-trash-can border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
+                  <i onClick={()=>ExperienceIdStore(data._id)} data-bs-toggle="modal" data-bs-target="#ExperienceIdStore" className="fa-solid fa-trash-can border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
                 </div>
                </div>
                <br />
-               <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+               <div className="modal fade" id="ExperienceIdStore" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog w-25">
                   <div className="modal-content">
                     <div className="modal-header text-dark">
@@ -120,7 +122,7 @@ const ExperienceDelete=(id)=>{
                     <h1 className="modal-body text-center font-semibold">Are you sure you want to delete?</h1>
                     <div className="modal-footer" style={{justifyContent:"center"}}>
                       <button type="button" className="btn btn-outline-secondary bg-secondary text-light" data-bs-dismiss="modal">No</button>
-                      <button type="button" onClick={()=>ExperienceDelete(data._id)} className="btn btn-outline-success bg-success text-light" data-bs-dismiss="modal" aria-label="Close" >Yes</button>
+                      <button type="button" onClick={()=>ExperienceDelete()} className="btn btn-outline-success bg-success text-light" data-bs-dismiss="modal" aria-label="Close" >Yes</button>
                     </div>
                   </div>
                 </div>
@@ -133,37 +135,6 @@ const ExperienceDelete=(id)=>{
       </div>
     </div>
     <hr />
-   {/*------------------------------------------------------------ROW3*/}
-    {/*------------------------------------------------------------ROW4*/} 
-    {/* <div className=" grid grid-cols-1 gap-6">
-      <div className="text-sm font-medium text-slate-600 ">
-        <div className="grid grid-cols-2 gap-4 bg-slate-100">
-          <div>
-            <h5 className="  p-2 font-medium leading-tight text-xl mt-0 mb-2 text-black">Certification</h5>
-          </div>
-          <div className="p-2 text-end text-slate-600 text-sm pt-2">
-            <i className="fa-solid fa-plus border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
-          </div>
-        </div>
-        <hr />
-        <div className="ml-2 p-4 grid grid-cols-1 gap-2">
-          <div>
-            <div className="grid grid-cols-5 gap-4">
-              <div className="col-span-4 ...">
-                <p className="  font-normal text-base  text-black"> Lorem Ipsum has been the industry's standard dummy text
-                  ever since the 1500s
-                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s </p>
-              </div>
-              <div className=" col  text-end text-slate-600 text-xs ">
-                <i className="fa-solid fa-pen border-solid  ring-2 ring-gray-200 p-2 rounded-full" />&nbsp;
-                <i className="fa-solid fa-trash-can border-solid  ring-2 ring-gray-200 p-2 rounded-full" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> */}
   {/* ------------------------------language modal-------------------------- */}
   <Modal
         aria-labelledby="transition-modal-title"
